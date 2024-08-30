@@ -6,3 +6,9 @@
 .join-wrap .input-wrap {
   padding: 10px 30px;
 }
+.join-button-box {
+  padding: 20px 30px;
+}
+.join-button-box > button {
+  width: 100%;
+}
