@@ -11,4 +11,6 @@ public interface MemberDao {
 
 	int checkId(String memberId);
 
+	MemberDTO selectOneMember(String memberId);
+
 }

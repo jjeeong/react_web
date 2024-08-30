@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import kr.co.iei.member.model.dao.MemberDao;
+import kr.co.iei.member.model.dto.LoginMemberDTO;
 import kr.co.iei.member.model.dto.MemberDTO;
+import kr.co.iei.util.JwtUtils;
 
 @Service
 public class MemberService {
@@ -15,6 +17,8 @@ public class MemberService {
 
 	@Autowired
 	private BCryptPasswordEncoder encoder;
+	@Autowired
+	private JwtUtils jwtUtil;
 	
 	@Transactional
 	public int insertMember(MemberDTO member) {
@@ -27,5 +31,16 @@ public class MemberService {
 	public int checkId(String memberId) {
 		int result = memberDao.checkId(memberId);
 		return result;
+	}
+
+	public LoginMemberDTO login(MemberDTO member) {
+		MemberDTO m =  memberDao.selectOneMember(member.getMemberId());
+		if(m!=null && encoder.matches(member.getMemberPw(), m.getMemberPw())) {
+			String accessToken = jwtUtil.createAccessToken(m.getMemberId(), m.getMemberType());
+			String refreshToken = jwtUtil.createRefreshToken(m.getMemberId(), m.getMemberType());
+			LoginMemberDTO loginMember = new LoginMemberDTO(accessToken, refreshToken, m.getMemberId(), m.getMemberType());
+			return loginMember;
+		}
+		return null;
 	}
 }

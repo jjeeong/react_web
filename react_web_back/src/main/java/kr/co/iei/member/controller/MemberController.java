@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import kr.co.iei.member.model.dto.LoginMemberDTO;
 import kr.co.iei.member.model.dto.MemberDTO;
 import kr.co.iei.member.model.service.MemberService;
 
@@ -39,4 +40,15 @@ public class MemberController {
 		int result = memberService.checkId(memberId);
 		return ResponseEntity.ok(result);
 	}
+	
+	@PostMapping(value = "/login")
+	public ResponseEntity<LoginMemberDTO> login(@RequestBody MemberDTO member) {
+		LoginMemberDTO loginMember = memberService.login(member);
+		if(loginMember != null) {
+			return ResponseEntity.ok(loginMember);
+		} else {
+			return ResponseEntity.status(404).build();
+		}
+	}
+
 }
