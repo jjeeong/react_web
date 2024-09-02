@@ -14,4 +14,20 @@
   <select id="selectOneMember" resultType="member">
 	  select * from member_tbl where member_id = #{memberId}
   </select>
+  
+  <update id="updateMember">
+  	update member_tbl set 
+  		member_name = #{memberName}, 
+  		member_phone = #{memberPhone} 
+  	where 
+  		member_id = #{memberId}
+  </update>
+  
+  <update id="changePw">
+  	update member_tbl set member_pw=#{memberPw} where member_id=#{memberId}
+  </update>
+  
+  <delete id="deleteMember">
+  	delete from member_tbl where member_id=#{memberId}
+  </delete>
 </mapper>

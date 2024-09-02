@@ -6,6 +6,7 @@ import {
   memberTypeState,
   isLoginState,
 } from "../utils/RecoilData";
+import axios from "axios";
 
 const Header = () => {
   return (
@@ -47,17 +48,19 @@ const HeaderLink = () => {
   const [memberType, setMemberType] = useRecoilState(memberTypeState);
 
   const isLogin = useRecoilValue(isLoginState);
-  console.log("header : ", loginId, memberType);
+  //console.log("header : ", loginId, memberType);
   const logout = () => {
     setLoginId("");
     setMemberType(0);
+    delete axios.defaults.headers.common["Authorization"];
+    window.localStorage.removeItem("refreshToken");
   };
   return (
     <ul className="user-menu">
       {isLogin ? (
         <>
           <li>
-            <Link to="#">{loginId}</Link>
+            <Link to="/member">{loginId}</Link>
           </li>
           <li>
             <Link to="#" onClick={logout}>

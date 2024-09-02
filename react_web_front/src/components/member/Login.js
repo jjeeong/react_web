@@ -32,6 +32,10 @@ const Login = () => {
         console.log(res);
         setLoginId(res.data.memberId);
         setMemberType(res.data.memberType);
+        //로그인 이후 axios 요청 시 발급받은 토큰값을 자동으로 axios에 추가하는 설정
+        axios.defaults.headers.common["Authorization"] = res.data.accessToken;
+        //로그인 상태를 지속적으로 유지시키기위해 발급받은 refreshToken을 브라우저에 저장
+        window.localStorage.setItem("refreshToken", res.data.refreshToken);
         navigate("/");
       })
       .catch((err) => {
