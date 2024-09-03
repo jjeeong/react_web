@@ -9,6 +9,7 @@ import { useRecoilState, useRecoilStateLoadable } from "recoil";
 import { loginIdState, memberTypeState } from "./components/utils/RecoilData";
 import { useEffect } from "react";
 import MemberMain from "./components/member/MemberMain";
+import BoardMain from "./components/board/BoardMain";
 
 function App() {
   const backServer = process.env.REACT_APP_BACK_SERVER;
@@ -53,6 +54,7 @@ function App() {
           <Route path="/join" element={<Join />} />
           <Route path="/login" element={<Login />} />
           <Route path="/member/*" element={<MemberMain />} />
+          <Route path="/board/*" element={<BoardMain />} />
         </Routes>
       </main>
       <Footer />
