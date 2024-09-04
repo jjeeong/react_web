@@ -1,5 +1,7 @@
 package kr.co.iei.board.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import kr.co.iei.board.model.dto.BoardDTO;
+import kr.co.iei.board.model.dto.BoardFileDTO;
 import kr.co.iei.board.model.service.BoardService;
 import kr.co.iei.util.FileUtils;
 
@@ -42,5 +46,37 @@ public class BoardController {
 		String savepath = root+"/editor/";
 		String filepath = fileUtil.upload(savepath, image);
 		return ResponseEntity.ok("/editor/"+filepath);
+	}
+	
+	@PostMapping
+	public ResponseEntity<Boolean> insertBoard(
+							@ModelAttribute BoardDTO board, 
+							@ModelAttribute MultipartFile thumbnail, 
+							@ModelAttribute MultipartFile[] boardFile ) {
+		if(thumbnail != null) {
+			String savepath = root+"/board/thumb/";
+			String filepath = fileUtil.upload(savepath, thumbnail);
+			board.setBoardThumb(filepath);
+		}
+		List<BoardFileDTO> boardFileList = new ArrayList<BoardFileDTO>();
+		if(boardFile != null) {
+			String savepath = root+"/board/";
+			for(MultipartFile file : boardFile) {
+				BoardFileDTO fileDTO = new BoardFileDTO();
+				String filename = file.getOriginalFilename();
+				String filepath = fileUtil.upload(savepath, file);
+				fileDTO.setFilename(filename);
+				fileDTO.setFilepath(filepath);
+				boardFileList.add(fileDTO);
+			}
+		}
+		int result = boardService.insertBoard(board, boardFileList);
+		return ResponseEntity.ok(result == 1+boardFileList.size());
+	}
+	
+	@GetMapping(value = "/boardNo/{boardNo}")
+	public ResponseEntity<BoardDTO> selectOneBoard(@PathVariable int boardNo){
+		BoardDTO board = boardService.selectOneBoard(boardNo);
+		return ResponseEntity.ok(board);
 	}
 }

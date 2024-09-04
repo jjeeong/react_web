@@ -3,8 +3,13 @@ import { useRecoilState } from "recoil";
 import { loginIdState } from "../utils/RecoilData";
 import BoardFrm from "./BoardFrm";
 import ToastEditor from "../utils/ToastEditor";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const BoardWrite = () => {
+  const backServer = process.env.REACT_APP_BACK_SERVER;
+  const navigate = useNavigate();
   //글작성 시 전송할 데이터 선언
   const [loginId, setLoginId] = useRecoilState(loginIdState); //로그인한 회원 아이디 값(입력할게 아니기 때문에 state사용안하고 작성자(로그인한 아이디)는 변경하지 않을 것이므로 set은 사용하지 않음)
   const [boardTitle, setBoardTitle] = useState(""); //사용자가 입력할 제목
@@ -14,8 +19,43 @@ const BoardWrite = () => {
   const inputTitle = (e) => {
     setBoardTitle(e.target.value);
   };
-  const inputContent = (e) => {
-    setBoardContent(e.target.value);
+
+  const writeBoard = () => {
+    if (boardTitle !== "" && boardContent !== "") {
+      const form = new FormData();
+      form.append("boardTitle", boardTitle);
+      form.append("boardContent", boardContent);
+      form.append("boardWriter", loginId);
+      //썸네일이 첨부된 경우에만 추가
+      if (thumbnail !== null) {
+        form.append("thumbnail", thumbnail);
+      }
+      //첨부파일도 추가한 경우에만 추가(첨부파일은 여러개가 같은 name으로 전송)
+      for (let i = 0; i < boardFile.length; i++) {
+        form.append("boardFile", boardFile[i]);
+      }
+      axios
+        .post(`${backServer}/board`, form, {
+          headers: {
+            contentType: "multipart/form-data",
+            processData: false,
+          },
+        })
+        .then((res) => {
+          if (res.data) {
+            navigate("/board/list");
+          } else {
+            Swal.fire({
+              title: "에러가 발생했습니다.",
+              text: "원인을 찾으세요",
+              icon: "error",
+            });
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   return (
@@ -25,6 +65,7 @@ const BoardWrite = () => {
         className="board-write-frm"
         onSubmit={(e) => {
           e.preventDefault();
+          writeBoard();
         }}
       >
         <BoardFrm
@@ -41,6 +82,11 @@ const BoardWrite = () => {
             boardContent={boardContent}
             setBoardContent={setBoardContent}
           />
+        </div>
+        <div className="button-zone">
+          <button type="submit" className="btn-primary lg">
+            등록하기
+          </button>
         </div>
       </form>
     </section>

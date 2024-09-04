@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import PageNavi from "../utils/PagiNavi";
 import { useRecoilValue } from "recoil";
 import { isLoginState } from "../utils/RecoilData";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const BoardList = () => {
   const backServer = process.env.REACT_APP_BACK_SERVER;
@@ -47,11 +47,24 @@ const BoardList = () => {
   );
 };
 const BoardItem = (props) => {
+  const backServer = process.env.REACT_APP_BACK_SERVER;
   const board = props.board;
+  const navigate = useNavigate();
   return (
-    <li className="posting-item">
+    <li
+      className="posting-item"
+      onClick={() => {
+        navigate(`/board/view/${board.boardNo}`);
+      }}
+    >
       <div className="posting-img">
-        <img src={board.boardThumb ? "" : "/image/default_img.png"} />
+        <img
+          src={
+            board.boardThumb
+              ? `${backServer}/board/thumb/${board.boardThumb}`
+              : "/image/default_img.png"
+          }
+        />
       </div>
       <div className="posting-info">
         <div className="posting-title">{board.boardTitle}</div>
