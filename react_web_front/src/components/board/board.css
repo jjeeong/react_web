@@ -34,4 +34,16 @@
 }
 .board-file-wrap {
   height: 143px;
+  overflow: auto;
+}
+.board-file-wrap > p {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+}
+.board-file-wrap > p:hover {
+  background-color: rgba(101, 146, 254, 0.1);
+}
+.del-file-icon {
+  cursor: pointer;
 }

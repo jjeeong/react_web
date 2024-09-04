@@ -25,6 +25,9 @@ const BoardFrm = (props) => {
       reader.onloadend = () => {
         setBoardImg(reader.result);
       };
+    } else {
+      setThumbnail(null);
+      setBoardImg(null);
     }
   };
   //첨부파일 화면에 띄울 state
@@ -40,8 +43,6 @@ const BoardFrm = (props) => {
     setBoardFile([...boardFile, ...fileArr]);
     setShowBoardFile([...showBoardFile, ...filenameArr]);
   };
-  console.log(boardFile);
-  console.log(showBoardFile);
   return (
     <div>
       <div className="board-thumb-wrap">
@@ -111,7 +112,27 @@ const BoardFrm = (props) => {
             <tr>
               <th>첨부파일 목록</th>
               <td>
-                <div className="board-file-wrap"></div>
+                <div className="board-file-wrap">
+                  {showBoardFile.map((filename, i) => {
+                    const deleteFile = () => {
+                      boardFile.splice(i, 1);
+                      setBoardFile([...boardFile]);
+                      showBoardFile.splice(i, 1);
+                      setShowBoardFile([...showBoardFile]);
+                    };
+                    return (
+                      <p key={"newFile-" + i}>
+                        <span className="filename">{filename}</span>
+                        <span
+                          className="material-icons del-file-icon"
+                          onClick={deleteFile}
+                        >
+                          delete
+                        </span>
+                      </p>
+                    );
+                  })}
+                </div>
               </td>
             </tr>
           </tbody>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useRecoilState } from "recoil";
 import { loginIdState } from "../utils/RecoilData";
 import BoardFrm from "./BoardFrm";
+import ToastEditor from "../utils/ToastEditor";
 
 const BoardWrite = () => {
   //글작성 시 전송할 데이터 선언
@@ -35,6 +36,12 @@ const BoardWrite = () => {
           boardFile={boardFile}
           setBoardFile={setBoardFile}
         />
+        <div className="board-content-wrap">
+          <ToastEditor
+            boardContent={boardContent}
+            setBoardContent={setBoardContent}
+          />
+        </div>
       </form>
     </section>
   );
