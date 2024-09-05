@@ -16,5 +16,10 @@ public interface BoardDao {
 	int insertBoardFile(BoardFileDTO boardFile);
 	BoardDTO selectOneBoard(int boardNo);
 	List<BoardFileDTO> selectOneBoardFileList(int boardNo);
+	BoardFileDTO getBoardFile(int boardFileNo);
+	int deleteBoard(int boardNo);
+	int updateBoard(BoardDTO board);
+	List<BoardFileDTO> selectBoardFile(int[] delBoardFileNo);
+	int deleteBoardFile(int[] delBoardFileNo);
 
 }

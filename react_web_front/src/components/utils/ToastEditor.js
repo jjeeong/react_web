@@ -7,6 +7,7 @@ const ToastEditor = (props) => {
   const backServer = process.env.REACT_APP_BACK_SERVER;
   const boardContent = props.boardContent;
   const setBoardContent = props.setBoardContent;
+  const type = props.type;
   const editorRef = useRef(null);
   const changeValue = () => {
     const editorData = editorRef.current.getInstance().getHTML();
@@ -34,7 +35,7 @@ const ToastEditor = (props) => {
   console.log(boardContent);
   return (
     <div style={{ width: "100%", marginTop: "20px" }}>
-      {boardContent || boardContent === "" ? (
+      {type === 0 || (type === 1 && boardContent !== "") ? (
         <Editor
           ref={editorRef}
           initialValue={boardContent}

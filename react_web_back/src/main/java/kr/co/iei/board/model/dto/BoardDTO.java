@@ -21,4 +21,5 @@ public class BoardDTO {
 	private int boardStatus;
 	private String boardDate;
 	private List<BoardFileDTO> fileList;
+	private int[] delBoardFileNo;
 }
