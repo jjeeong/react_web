@@ -11,3 +11,6 @@ npm install recoil
 문정원 2024-09-04 13:47
 npm install @toast-ui/react-editor --force
 (--force : 강제 설치)
+
+문정원 2024-09-05 16:56
+npm install @mui/material @emotion/react @emotion/styled --force

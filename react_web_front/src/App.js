@@ -10,6 +10,7 @@ import { loginIdState, memberTypeState } from "./components/utils/RecoilData";
 import { useEffect } from "react";
 import MemberMain from "./components/member/MemberMain";
 import BoardMain from "./components/board/BoardMain";
+import AdminMain from "./components/admin/AdminMain";
 
 function App() {
   const backServer = process.env.REACT_APP_BACK_SERVER;
@@ -55,6 +56,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/member/*" element={<MemberMain />} />
           <Route path="/board/*" element={<BoardMain />} />
+          <Route path="/admin/*" element={<AdminMain />} />
         </Routes>
       </main>
       <Footer />
