@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import kr.co.iei.board.model.dao.BoardDao;
 import kr.co.iei.board.model.dto.BoardDTO;
 import kr.co.iei.member.model.dao.MemberDao;
+import kr.co.iei.member.model.dto.MemberDTO;
 import kr.co.iei.util.PageInfo;
 import kr.co.iei.util.PageUtil;
 
@@ -52,6 +53,11 @@ public class AdminService {
 		map.put("list",list);
 		map.put("pi",pi);
 		return map;
+	}
+
+	public int updateMemberType(MemberDTO member) {
+		int result = memberDao.updateMemberType(member);
+		return result;
 	}
 
 }
